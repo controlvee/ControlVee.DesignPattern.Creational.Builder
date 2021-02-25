@@ -32,111 +32,187 @@
     {
         public static void Main()
         {
-            Director director = new Director();
-
-            Builder b1 = new ConcreteBuilder1();
-            Builder b2 = new ConcreteBuilder2();
-            Builder b3 = new ConcreteBuilder1();
-            Builder b4 = new ConcreteBuilder2();
-
-            // Construct two products here:
-
-            // This...
-            director.Construct(b1);
-            Product product1 = b1.GetResult();
-            product1.Show();
-
-            director.Construct(b2);
-            Product product2 = b2.GetResult();
-            product2.Show();
-
-            // OR // 
-
-            // This...
-            director.Construct(b3);
-            director.Construct(b4);
-            Product product3 = b3.GetResult();
-            Product product4 = b4.GetResult();
-            product3.Show();
-            product4.Show();
+            VehicleBuilder builder;
+ 
+            // Create shop with vehicle builders.
+            Shop shop = new Shop();
+ 
+            // Construct and display vehicles.
+            builder = new ScooterBuilder();
+            shop.Construct(builder);
+            builder.Vehicle.Show();
+ 
+            builder = new CarBuilder();
+            shop.Construct(builder);
+            builder.Vehicle.Show();
+ 
+            builder = new MotorCycleBuilder();
+            shop.Construct(builder);
+            builder.Vehicle.Show();
+ 
+            // Wait for user.
+            Console.ReadKey();
+        }
+  }
+ 
+    /// <summary>
+    /// The 'Director' class
+    /// </summary>
+    class Shop
+    {
+        // Builder uses a complex series of steps.
+        public void Construct(VehicleBuilder vehicleBuilder)
+        {
+            vehicleBuilder.BuildFrame();
+            vehicleBuilder.BuildEngine();
+            vehicleBuilder.BuildWheels();
+            vehicleBuilder.BuildDoors();
         }
     }
-
-    class Director
+ 
+    /// <summary>
+    /// The 'Builder' abstract class
+    /// </summary>
+    abstract class VehicleBuilder
     {
-        // Builder uses a series of steps.
-        public void Construct(Builder abstractBuilder)
+        protected Vehicle vehicle;
+ 
+        // Gets vehicle instance
+        public Vehicle Vehicle
         {
-            abstractBuilder.BuildPartA();
-            abstractBuilder.BuildPartB();
+            get { return vehicle; }
+        }
+ 
+        // Abstract build methods.
+        public abstract void BuildFrame();
+        public abstract void BuildEngine();
+        public abstract void BuildWheels();
+        public abstract void BuildDoors();
+    }
+ 
+    /// <summary>
+    /// The 'ConcreteBuilder1' class
+    /// </summary>
+    class MotorCycleBuilder : VehicleBuilder
+    {
+        public MotorCycleBuilder()
+        {
+          vehicle = new Vehicle("MotorCycle");
+        }
+ 
+        public override void BuildFrame()
+        {
+          vehicle["frame"] = "MotorCycle Frame";
+        }
+ 
+        public override void BuildEngine()
+        {
+          vehicle["engine"] = "500 cc";
+        }
+ 
+        public override void BuildWheels()
+        {
+          vehicle["wheels"] = "2";
+        }
+ 
+        public override void BuildDoors()
+        {
+          vehicle["doors"] = "0";
         }
     }
-
-    abstract class Builder
+ 
+ 
+    /// <summary>
+    /// The 'ConcreteBuilder2' class
+    /// </summary>
+    class CarBuilder : VehicleBuilder
     {
-        public abstract void BuildPartA();
-        public abstract void BuildPartB();
-        public abstract Product GetResult();
-    }
-
-    class ConcreteBuilder1 : Builder
-    {
-        private Product _product = new Product();
-
-        // Override an abstract the same way as virtual? Why?
-        public override void BuildPartA()
+        public CarBuilder()
         {
-            _product.Add("part_a");
+          vehicle = new Vehicle("Car");
         }
-
-        public override void BuildPartB()
+ 
+        public override void BuildFrame()
         {
-            _product.Add("part_b");
+          vehicle["frame"] = "Car Frame";
         }
-
-        public override Product GetResult()
+ 
+        public override void BuildEngine()
         {
-            return _product;
+          vehicle["engine"] = "2500 cc";
         }
-    }
-
-    class ConcreteBuilder2 : Builder
-    {
-        private Product _product = new Product();
-
-        // Override an abstract the same way as virtual? Why?
-        // Is this a good example if method names are part A and B
-        // when it is creating x and y parts?
-        public override void BuildPartA()
+ 
+        public override void BuildWheels()
         {
-            _product.Add("part_x");
+          vehicle["wheels"] = "4";
         }
-
-        public override void BuildPartB()
+ 
+        public override void BuildDoors()
         {
-            _product.Add("part_y");
-        }
-
-        public override Product GetResult()
-        {
-            return _product;
+          vehicle["doors"] = "4";
         }
     }
+ 
+    /// <summary>
+    /// The 'ConcreteBuilder3' class
+    /// </summary>
 
-    class Product
+    class ScooterBuilder : VehicleBuilder
     {
-        private List<string> _parts = new List<string>();
-
-        public void Add(string part)
+        public ScooterBuilder()
         {
-            _parts.Add(part);
+          vehicle = new Vehicle("Scooter");
         }
-
+ 
+        public override void BuildFrame()
+        {
+          vehicle["frame"] = "Scooter Frame";
+        }
+ 
+        public override void BuildEngine()
+        {
+          vehicle["engine"] = "50 cc";
+        }
+ 
+        public override void BuildWheels()
+        {
+          vehicle["wheels"] = "2";
+        }
+ 
+        public override void BuildDoors()
+        {
+          vehicle["doors"] = "0";
+        }
+    }
+ 
+    /// <summary>
+    /// The 'Product' class
+    /// </summary>
+    class Vehicle
+    {
+        private string _vehicleType;
+        private Dictionary<string,string> _parts = new Dictionary<string,string>();
+ 
+        public Vehicle(string vehicleType)
+        {
+            this._vehicleType = vehicleType;
+        }
+ 
+        // Indexer.
+        public string this[string key]
+        {
+            get { return _parts[key]; }
+            set { _parts[key] = value; }
+        }
+ 
         public void Show()
         {
-            Console.WriteLine("\nProduct Parts -------");
-            foreach (string part in _parts)
-                Console.WriteLine(part);
+            Console.WriteLine("\n---------------------------");
+            Console.WriteLine("Vehicle Type: {0}", _vehicleType);
+            Console.WriteLine(" Frame : {0}", _parts["frame"]);
+            Console.WriteLine(" Engine : {0}", _parts["engine"]);
+            Console.WriteLine(" #Wheels: {0}", _parts["wheels"]);
+            Console.WriteLine(" #Doors : {0}", _parts["doors"]);
         }
     }
 }

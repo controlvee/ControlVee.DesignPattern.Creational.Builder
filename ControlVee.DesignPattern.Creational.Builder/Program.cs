@@ -53,7 +53,7 @@
             // Wait for user.
             Console.ReadKey();
         }
-  }
+    }
  
     /// <summary>
     /// The 'Director' class
@@ -97,27 +97,28 @@
     {
         public MotorCycleBuilder()
         {
-          vehicle = new Vehicle("MotorCycle");
+            vehicle = new Vehicle("MotorCycle");
         }
  
         public override void BuildFrame()
         {
-          vehicle["frame"] = "MotorCycle Frame";
+            // TODO: What is happening here?
+            vehicle["frame"] = "MotorCycle Frame";
         }
  
         public override void BuildEngine()
         {
-          vehicle["engine"] = "500 cc";
+            vehicle["engine"] = "500 cc";
         }
  
         public override void BuildWheels()
         {
-          vehicle["wheels"] = "2";
+            vehicle["wheels"] = "2";
         }
  
         public override void BuildDoors()
         {
-          vehicle["doors"] = "0";
+            vehicle["doors"] = "0";
         }
     }
  
@@ -129,27 +130,27 @@
     {
         public CarBuilder()
         {
-          vehicle = new Vehicle("Car");
+            vehicle = new Vehicle("Car");
         }
  
         public override void BuildFrame()
         {
-          vehicle["frame"] = "Car Frame";
+            vehicle["frame"] = "Car Frame";
         }
  
         public override void BuildEngine()
         {
-          vehicle["engine"] = "2500 cc";
+            vehicle["engine"] = "2500 cc";
         }
  
         public override void BuildWheels()
         {
-          vehicle["wheels"] = "4";
+            vehicle["wheels"] = "4";
         }
  
         public override void BuildDoors()
         {
-          vehicle["doors"] = "4";
+            vehicle["doors"] = "4";
         }
     }
  
@@ -161,27 +162,27 @@
     {
         public ScooterBuilder()
         {
-          vehicle = new Vehicle("Scooter");
+            vehicle = new Vehicle("Scooter");
         }
  
         public override void BuildFrame()
         {
-          vehicle["frame"] = "Scooter Frame";
+            vehicle["frame"] = "Scooter Frame";
         }
  
         public override void BuildEngine()
         {
-          vehicle["engine"] = "50 cc";
+            vehicle["engine"] = "50 cc";
         }
  
         public override void BuildWheels()
         {
-          vehicle["wheels"] = "2";
+            vehicle["wheels"] = "2";
         }
  
         public override void BuildDoors()
         {
-          vehicle["doors"] = "0";
+            vehicle["doors"] = "0";
         }
     }
  
